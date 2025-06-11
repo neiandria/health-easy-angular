@@ -30,8 +30,8 @@ export interface Medico {
   CPF: string;
 }
 
-export interface Usuario {
-  id_usuario: number;
+export interface Recepcionista {
+  id_recepcionista: number;
   nome: string;
   email: string;
   senha: string;
@@ -63,7 +63,7 @@ export class DataService {
 
   private pacientes$ = new BehaviorSubject<Paciente[]>([]);
   private medicos$ = new BehaviorSubject<Medico[]>([]);
-  private usuarios$ = new BehaviorSubject<Usuario[]>([]);
+  private recepcionistas$ = new BehaviorSubject<Recepcionista[]>([]);
   private consultas$ = new BehaviorSubject<Consulta[]>([]);
   private historico$ = new BehaviorSubject<Historico[]>([]);
   private usuarioLogado = new BehaviorSubject<UsuarioLogado | null>(
@@ -84,8 +84,8 @@ export class DataService {
       .subscribe((m) => this.medicos$.next(m));
 
     this.http
-      .get<Usuario[]>(`${this.API_URL}/usuarios`)
-      .subscribe((u) => this.usuarios$.next(u));
+      .get<Recepcionista[]>(`${this.API_URL}/recepcionistas`)
+      .subscribe((u) => this.recepcionistas$.next(u));
 
     this.http
       .get<any[]>(`${this.API_URL}/consultas`)
@@ -182,24 +182,24 @@ export class DataService {
     );
   }
 
-  getUsuarios(): Observable<Usuario[]> {
-    return this.usuarios$.asObservable();
+  getUsuarios(): Observable<Recepcionista[]> {
+    return this.recepcionistas$.asObservable();
   }
-  getUsuarioById(id: number): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.API_URL}/usuarios/${id}`).pipe(
+  getUsuarioById(id: number): Observable<Recepcionista> {
+    return this.http.get<Recepcionista>(`${this.API_URL}/recepcionistas/${id}`).pipe(
       tap((u) => {
-        const list = this.usuarios$.value;
-        if (!list.find((x) => x.id_usuario === u.id_usuario)) {
-          this.usuarios$.next([...list, u]);
+        const list = this.recepcionistas$.value;
+        if (!list.find((x) => x.id_recepcionista === u.id_recepcionista)) {
+          this.recepcionistas$.next([...list, u]);
         }
       })
     );
   }
-  addUsuario(u: Usuario): Observable<Usuario> {
+  addUsuario(u: Recepcionista): Observable<Recepcionista> {
     return this.http
-      .post<Usuario>(`${this.API_URL}/usuarios`, u)
+      .post<Recepcionista>(`${this.API_URL}/recepcionistas`, u)
       .pipe(
-        tap((novo) => this.usuarios$.next([...this.usuarios$.value, novo]))
+        tap((novo) => this.recepcionistas$.next([...this.recepcionistas$.value, novo]))
       );
   }
 
@@ -313,13 +313,13 @@ export class DataService {
     }
 
     if (accountType === 'recepcionista') {
-      const usuario: Usuario = {
-        id_usuario: 0,
+      const recepcionista: Recepcionista = {
+        id_recepcionista: 0,
         nome: fullName,
         email,
         senha: password,
       };
-      return this.addUsuario(usuario);
+      return this.addUsuario(recepcionista);
     }
 
     throw new Error('Tipo de conta inválido');

@@ -4,7 +4,7 @@ import {
   DataService,
   Paciente,
   Medico,
-  Usuario,
+  Recepcionista,
   UsuarioLogado,
 } from './../../services/data-service.service';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   pacientes: Paciente[] = [];
   medicos: Medico[] = [];
-  usuarios: Usuario[] = [];
+  usuarios: Recepcionista[] = [];
 
   constructor(private dataService: DataService, private router: Router) {}
 
@@ -66,12 +66,12 @@ export class LoginComponent implements OnInit {
     );
     if (usuario) {
       const usuarioLogado: UsuarioLogado = {
-        id: usuario.id_usuario,
+        id: usuario.id_recepcionista,
         fullName: usuario.nome,
         tipo: 'recepcionista',
       };
       this.dataService.setUsuarioLogado(usuarioLogado);
-      this.router.navigate(['/recepcionista', usuario.id_usuario]);
+      this.router.navigate(['/recepcionista', usuario.id_recepcionista]);
       return;
     }
 

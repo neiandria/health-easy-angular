@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 
 const pacienteRoutes = require("./routes/paciente");
 const medicoRoutes = require("./routes/medico");
-const usuarioRoutes = require("./routes/usuario");
+const recepcionistaRoutes = require("./routes/recepcionista");
 const consultaRoutes = require("./routes/consulta");
 const historicoRoutes = require("./routes/historico");
 
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 app.use("/api/pacientes", pacienteRoutes);
 app.use("/api/medicos", medicoRoutes);
-app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/recepcionistas", recepcionistaRoutes);
 app.use("/api/consultas", consultaRoutes);
 app.use("/api/historico", historicoRoutes);
 

@@ -3,7 +3,7 @@ const routerUsu = express.Router();
 const db = require("../db");
 
 routerUsu.get("/", (req, res) => {
-  db.query("SELECT * FROM usuario", (err, results) => {
+  db.query("SELECT * FROM recepcionista", (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
@@ -12,7 +12,7 @@ routerUsu.get("/", (req, res) => {
 routerUsu.get("/:id", (req, res) => {
   const { id } = req.params;
   db.query(
-    "SELECT * FROM usuario WHERE id_usuario = ?",
+    "SELECT * FROM recepcionista WHERE id_recepcionista = ?",
     [id],
     (err, results) => {
       if (err) return res.status(500).json(err);
@@ -25,12 +25,12 @@ routerUsu.get("/:id", (req, res) => {
 
 routerUsu.post("/", (req, res) => {
   const u = req.body;
-  const sql = `INSERT INTO usuario (nome, email, senha)
+  const sql = `INSERT INTO recepcionista (nome, email, senha)
                VALUES (?, ?, ?)`;
   const vals = [u.nome, u.email, u.senha];
   db.query(sql, vals, (err, result) => {
     if (err) return res.status(500).json(err);
-    res.status(201).json({ id_usuario: result.insertId, ...u });
+    res.status(201).json({ id_recepcionista: result.insertId, ...u });
   });
 });
 
@@ -38,18 +38,18 @@ routerUsu.put("/:id", (req, res) => {
   const { id } = req.params;
   const u = req.body;
   db.query(
-    "UPDATE usuario SET nome=?, email=?, senha=? WHERE id_usuario=?",
+    "UPDATE recepcionista SET nome=?, email=?, senha=? WHERE id_recepcionista=?",
     [u.nome, u.email, u.senha, id],
     (err) => {
       if (err) return res.status(500).json(err);
-      res.json({ id_usuario: +id, ...u });
+      res.json({ id_recepcionista: +id, ...u });
     }
   );
 });
 
 routerUsu.delete("/:id", (req, res) => {
   const { id } = req.params;
-  db.query("DELETE FROM usuario WHERE id_usuario=?", [id], (err) => {
+  db.query("DELETE FROM recepcionista WHERE id_recepcionista=?", [id], (err) => {
     if (err) return res.status(500).json(err);
     res.status(204).end();
   });
