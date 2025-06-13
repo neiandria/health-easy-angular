@@ -8,9 +8,12 @@ const recepcionistaRoutes = require("./routes/recepcionista");
 const consultaRoutes = require("./routes/consulta");
 const historicoRoutes = require("./routes/historico");
 
+//Node.js e express -> config do servidor express
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Integrações com o front end e middlewares
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -27,3 +30,5 @@ app.get("/api/health", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
+//falar da Restful
